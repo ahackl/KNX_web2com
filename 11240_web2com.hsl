@@ -1,0 +1,62 @@
+# -*- coding: iso-8859-1 -*-
+
+
+# Copyright © 2020, Alexander Hackl
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with this program;
+# if not, see <http://www.gnu.de/documents/gpl-3.0.de.html>.
+# Information: If input EN[7] is changed the sript will be executed
+#
+# Protocol "http" or "https"
+# E[1] = "http"
+# E[1] = "https"
+#
+# "IP-Nummer" or "domain name"
+# E[2] = "192.168.1.999"
+# E[2] = "www.bla.de" 
+#
+# Port
+# E[3] = "80"
+#
+# Full path
+# E[4] = "/ws"
+#
+# User name
+# E[5] = "OEM"
+#
+# Password
+# E[6] = "Password"
+#
+# Command ID
+# E[7] = "/1/2/2/126/4"
+#
+5000|"Weitere Bausteine\\web2com"|0|7|"E1 Protocol"|"E2 IP-Nummer"|"E3 Port"|"E4 Path"|"E5 user name"|"E6 password"|"E7 command id"|2|"A1 HTTP result"|"A2 web2com result"|"11240 - V1.0"
+
+# Anzahl Eingaenge | #Ausgaenge | #Zeitspeicher | #Speichervariablen | #Berechung bei init | Kodierter Formel
+5001|7|2|0|0|1
+
+#Definition der Eingaenge:
+5002|1|""|1
+5002|2|""|1
+5002|3|""|1
+5002|4|""|1
+5002|5|""|1
+5002|6|""|1
+5002|7|""|1
+
+#5004|Ausgang|Init.-Wert|Binaer|Typ|Datenformat
+5004|1|""|0|1|0
+5004|2|""|0|1|0
+
+5012|0|"EC[7]"|"eval(compile(__import__('base64').decodestring('CgpnbG9iYWwgdXJsbGliMgpnbG9iYWwgc29ja2V0Cmdsb2JhbCB4bWwKCmltcG9ydCB1cmxsaWIyCmltcG9ydCBzb2NrZXQKaW1wb3J0IHhtbAppbXBvcnQgeG1sLmV0cmVlLkVsZW1lbnRUcmVlCgoKaWYgbm90IGhhc2F0dHIoc29ja2V0LCJfaHNfZG5zcmVzb2x2ZXIiKToKCSMjIGFsbHRlcyBnZXRhZGRyaW5mbyBzcGVpY2hlcm4KCXNvY2tldC5fc29ja2V0X2dldGFkZHJpbmZvID0gc29ja2V0LmdldGFkZHJpbmZvCgkjIyBkZW4gSFMgaW50ZXJuZW4gUmVzb2x2ZXIgYW4gZGFzIHNvY2tldCBNb2R1bCBiaW5kZW4KCXNvY2tldC5faHNfZG5zcmVzb2x2ZXIgPSBzZWxmLk1DLkROU1Jlc29sdmVyLmdldEhvc3RJUAoJIyMgbmV1ZSBnZXRhZGRyaW5mbyBGdW5rdGlvbgoJZGVmIF9oc2dldGFkZHJpbmZvKGhvc3QsIHBvcnQsIGZhbWlseT0wLCBzb2NrdHlwZT0wLCBwcm90bz0wLCBmbGFncz0wKTogCiAgICAgICAgCXJldHVybiBzb2NrZXQuX3NvY2tldF9nZXRhZGRyaW5mbyhzb2NrZXQuX2hzX2Ruc3Jlc29sdmVyKGhvc3QpLHBvcnQsIGZhbWlseSxzb2NrdHlwZSxwcm90byxmbGFncykKCSMjIHVuZCBkaWUgYWx0ZSBnZWdlbiBkaWUgbmV1ZSBlcnNldHplbgoJc29ja2V0LmdldGFkZHJpbmZvID0gX2hzZ2V0YWRkcmluZm8KCgpkZWYgbWFrZVBheWxvYWQoY29tbWFuZElkKToKCXBheWxvYWQgPSc8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PicrJ1xuJwoJcGF5bG9hZCs9JzxTT0FQLUVOVjpFbnZlbG9wZScrJ1xuJwoJcGF5bG9hZCs9J3htbG5zOlNPQVAtRU5WPSJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy9zb2FwL2VudmVsb3BlLyInKydcbicKCXBheWxvYWQrPSd4bWxuczpTT0FQLUVOQz0iaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvc29hcC9lbmNvZGluZy8iJysnXG4nCglwYXlsb2FkKz0neG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSInKydcbicKCXBheWxvYWQrPSd4bWxuczp4c2Q9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hIicrJ1xuJwoJcGF5bG9hZCs9J3htbG5zOm5zPSJodHRwOi8vd3MwMS5sb20uY2gvc29hcC8iPicrJ1xuJwoJcGF5bG9hZCs9JzxTT0FQLUVOVjpCb2R5PicrJ1xuJwoJcGF5bG9hZCs9JzxuczpnZXREcFJlcXVlc3Q+JysnXG4nCglwYXlsb2FkKz0nPHJlZj4nKydcbicKCXBheWxvYWQrPSc8b2lkPicrY29tbWFuZElkKyc8L29pZD4nKydcbicKCXBheWxvYWQrPSc8cHJvcC8+JysnXG4nCglwYXlsb2FkKz0nPC9yZWY+JysnXG4nCglwYXlsb2FkKz0nPHN0YXJ0SW5kZXg+MDwvc3RhcnRJbmRleD4nKydcbicKCXBheWxvYWQrPSc8Y291bnQ+LTE8L2NvdW50PicrJ1xuJwoJcGF5bG9hZCs9JzwvbnM6Z2V0RHBSZXF1ZXN0PicrJ1xuJwoJcGF5bG9hZCs9JzwvU09BUC1FTlY6Qm9keT4nKydcbic7CglwYXlsb2FkKz0nPC9TT0FQLUVOVjpFbnZlbG9wZT4nKydcbic7CglyZXR1cm4ocGF5bG9hZCkKCmRlZiBtYWtlVVJMKHByb3RvY29sLCBpcERvbWFpbiwgcG9ydCwgcGF0aCk6CglyZXR1cm4ocHJvdG9jb2wgKyAiOi8vIiArIGlwRG9tYWluICsgIjoiICsgcG9ydCArIHBhdGgpCgpkZWYgZmV0Y2hXZWIyQ29tKHVybCwgdXNlcm5hbWUsIHBhc3N3b3JkLCBwYXlsb2FkKToKCXRyeToKCQlhdXRoID0gdXJsbGliMi5IVFRQUGFzc3dvcmRNZ3JXaXRoRGVmYXVsdFJlYWxtKCkKCQlhdXRoLmFkZF9wYXNzd29yZCAoTm9uZSwgdXJsLCB1c2VybmFtZSwgcGFzc3dvcmQpCgoJCW9wZW5lciA9IHVybGxpYjIuYnVpbGRfb3BlbmVyKHVybGxpYjIuSFRUUEJhc2ljQXV0aEhhbmRsZXIoIGF1dGgpLCB1cmxsaWIyLkhUVFBEaWdlc3RBdXRoSGFuZGxlcihhdXRoKSkKCQlvcGVuZXIuYWRkaGVhZGVycyA9IFsoJ0NvbnRlbnQtVHlwZScsICd0ZXh0L3htbCcpXQoJCXVybGxpYjIuaW5zdGFsbF9vcGVuZXIob3BlbmVyKQoKCQlwYWdlX2NvbnRlbnQgPSB1cmxsaWIyLnVybG9wZW4odXJsLCBwYXlsb2FkKQoJCXJldHVybl9jb2RlID0gcGFnZV9jb250ZW50LmNvZGUKCQlyZXR1cm5fY29udGVudCA9IDAKCQlpZiByZXR1cm5fY29kZSA9PSAyMDA6CgkJCXJldHVybl9jb250ZW50X3htbCA9IHhtbC5ldHJlZS5FbGVtZW50VHJlZS5mcm9tc3RyaW5nKHBhZ2VfY29udGVudC5yZWFkKCkpCgkJCXJldHVybl9jb250ZW50ID0gcmV0dXJuX2NvbnRlbnRfeG1sWzBdWzBdWzFdWzRdLnRleHQKCQlyZXR1cm4gKHJldHVybl9jb2RlLCByZXR1cm5fY29udGVudCkKCWV4Y2VwdCB1cmxsaWIyLkhUVFBFcnJvciwgZToKCQlyZXR1cm4gKGUuY29kZSwgMCkKCgpBTlsxXSwgQU5bMl0gPSBmZXRjaFdlYjJDb20obWFrZVVSTChFTlsxXSwgRU5bMl0sIEVOWzNdLCBFTls0XSksIEVOWzVdLCBFTls2XSwgbWFrZVBheWxvYWQoRU5bN10pKQpBQ1sxXSA9IDEKQUNbMl0gPSAxCgo='),'<11240_web2com_0>','exec'))"|""|0|0|0|0
+

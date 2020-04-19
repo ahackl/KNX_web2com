@@ -1,0 +1,139 @@
+# -*- coding: iso-8859-1 -*-
+LOGIKCATEGORY="Weitere Bausteine"
+LOGIKID="11240"
+LOGIKVERSION="1.0"
+LOGIKDESCRIPTION="Ochsner web2com interface"
+
+
+"""
+# Copyright © 2020, Alexander Hackl
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with this program;
+# if not, see <http://www.gnu.de/documents/gpl-3.0.de.html>.
+# Information: If input EN[7] is changed the sript will be executed
+#
+# Protocol "http" or "https"
+# E[1] = "http"
+# E[1] = "https"
+#
+# "IP-Nummer" or "domain name"
+# E[2] = "192.168.1.999"
+# E[2] = "www.bla.de" 
+#
+# Port
+# E[3] = "80"
+#
+# Full path
+# E[4] = "/ws"
+#
+# User name
+# E[5] = "OEM"
+#
+# Password
+# E[6] = "Password"
+#
+# Command ID
+# E[7] = "/1/2/2/126/4"
+#
+5000|"@LOGIKCATEGORY@\\@LOGIKNAME@"|0|7|"E1 Protocol"|"E2 IP-Nummer"|"E3 Port"|"E4 Path"|"E5 user name"|"E6 password"|"E7 command id"|2|"A1 HTTP result"|"A2 web2com result"|"@LOGIKID@ - V@LOGIKVERSION@"
+
+# Anzahl Eingaenge | #Ausgaenge | #Zeitspeicher | #Speichervariablen | #Berechung bei init | Kodierter Formel
+5001|7|2|0|0|1
+
+#Definition der Eingaenge:
+5002|1|""|1
+5002|2|""|1
+5002|3|""|1
+5002|4|""|1
+5002|5|""|1
+5002|6|""|1
+5002|7|""|1
+
+#5004|Ausgang|Init.-Wert|Binaer|Typ|Datenformat
+5004|1|""|0|1|0
+5004|2|""|0|1|0
+
+5012|0|"EC[7]"|"@BYTECODE@"|""|0|0|0|0
+@BYTECODESTART@
+
+global urllib2
+global socket
+global xml
+
+import urllib2
+import socket
+import xml
+import xml.etree.ElementTree
+
+
+if not hasattr(socket,"_hs_dnsresolver"):
+	## alltes getaddrinfo speichern
+	socket._socket_getaddrinfo = socket.getaddrinfo
+	## den HS internen Resolver an das socket Modul binden
+	socket._hs_dnsresolver = self.MC.DNSResolver.getHostIP
+	## neue getaddrinfo Funktion
+	def _hsgetaddrinfo(host, port, family=0, socktype=0, proto=0, flags=0): 
+        	return socket._socket_getaddrinfo(socket._hs_dnsresolver(host),port, family,socktype,proto,flags)
+	## und die alte gegen die neue ersetzen
+	socket.getaddrinfo = _hsgetaddrinfo
+
+
+def makePayload(commandId):
+	payload ='<?xml version="1.0" encoding="UTF-8"?>'+'\n'
+	payload+='<SOAP-ENV:Envelope'+'\n'
+	payload+='xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"'+'\n'
+	payload+='xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"'+'\n'
+	payload+='xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'+'\n'
+	payload+='xmlns:xsd="http://www.w3.org/2001/XMLSchema"'+'\n'
+	payload+='xmlns:ns="http://ws01.lom.ch/soap/">'+'\n'
+	payload+='<SOAP-ENV:Body>'+'\n'
+	payload+='<ns:getDpRequest>'+'\n'
+	payload+='<ref>'+'\n'
+	payload+='<oid>'+commandId+'</oid>'+'\n'
+	payload+='<prop/>'+'\n'
+	payload+='</ref>'+'\n'
+	payload+='<startIndex>0</startIndex>'+'\n'
+	payload+='<count>-1</count>'+'\n'
+	payload+='</ns:getDpRequest>'+'\n'
+	payload+='</SOAP-ENV:Body>'+'\n';
+	payload+='</SOAP-ENV:Envelope>'+'\n';
+	return(payload)
+
+def makeURL(protocol, ipDomain, port, path):
+	return(protocol + "://" + ipDomain + ":" + port + path)
+
+def fetchWeb2Com(url, username, password, payload):
+	try:
+		auth = urllib2.HTTPPasswordMgrWithDefaultRealm()
+		auth.add_password (None, url, username, password)
+
+		opener = urllib2.build_opener(urllib2.HTTPBasicAuthHandler( auth), urllib2.HTTPDigestAuthHandler(auth))
+		opener.addheaders = [('Content-Type', 'text/xml')]
+		urllib2.install_opener(opener)
+
+		page_content = urllib2.urlopen(url, payload)
+		return_code = page_content.code
+		return_content = 0
+		if return_code == 200:
+			return_content_xml = xml.etree.ElementTree.fromstring(page_content.read())
+			return_content = return_content_xml[0][0][1][4].text
+		return (return_code, return_content)
+	except urllib2.HTTPError, e:
+		return (e.code, 0)
+
+
+AN[1], AN[2] = fetchWeb2Com(makeURL(EN[1], EN[2], EN[3], EN[4]), EN[5], EN[6], makePayload(EN[7]))
+AC[1] = 1
+AC[2] = 1
+
+@BYTECODEEND@
